@@ -79,9 +79,8 @@ grande, e diferenças de poucos pontos não devem ser superinterpretadas. Este r
 questões de texto, já que os modelos puramente textuais não leem imagem, então as questões com figura
 ficaram fora desta comparação. Há ainda um punhado de questões de Matemática em que as alternativas
 são fórmulas em imagem, que a extração de texto não consegue ler, e essas saem com alternativas
-vazias. E os planos gratuitos têm seus limites, o Gemini estava com a cota zerada nesta conta, e os
-modelos do OpenRouter têm teto diário, então o Groq foi o provedor mais estável para uma rodada
-inteira.
+vazias. Por fim, os planos gratuitos impõem limites de cota e de taxa, então uma rodada inteira pede
+atenção a esses limites, e neste trabalho o Groq foi o provedor mais estável.
 
 ## Como reproduzir
 

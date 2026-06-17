@@ -22,8 +22,8 @@
   model: meta-llama/llama-4-scout-17b-16e-instruct
   multimodal: true
 
-# OpenRouter, variantes :free, algumas multimodais. As :free dependem de provedores upstream e às
-# vezes ficam rate-limited; confirme a disponibilidade antes de uma rodada grande.
+# OpenRouter, variantes :free, algumas multimodais. Confirme a disponibilidade dos modelos :free
+# antes de uma rodada grande, porque o catálogo gratuito muda com o tempo.
 - id: or-gemma-31b
   provider: openrouter
   model: google/gemma-4-31b-it:free
@@ -39,7 +39,7 @@
   model: nvidia/nemotron-nano-12b-v2-vl:free
   multimodal: true
 
-# Gemini, gratuito e multimodal. Atenção: a cota grátis desta conta está zerada no momento.
+# Gemini, gratuito e multimodal.
 - id: gemini-flash
   provider: gemini
   model: gemini-2.0-flash
