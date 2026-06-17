@@ -1,0 +1,21 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  qualidade:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar o uv
+        uses: astral-sh/setup-uv@v5
+      - name: Sincronizar o ambiente
+        run: uv sync
+      - name: Lint com ruff
+        run: uv run ruff check .
+      - name: Formatação com ruff
+        run: uv run ruff format --check .
+      - name: Testes
+        run: uv run pytest -q

@@ -1,0 +1,43 @@
+# Segredos, nunca versionar
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Ambiente virtual
+.venv/
+venv/
+
+# Caches de ferramentas
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+
+# Saídas geradas. Versiona-se só o CSV canônico de resultados, que está por trás dos gráficos e do
+# notebook; os demais artefatos de rodada ficam de fora.
+results/*
+!results/.gitkeep
+!results/resultados.csv
+data/*
+!data/README.md
+
+# Guia interno de trabalho e configurações pessoais do editor, fora do repositório
+CLAUDE.md
+.vscode/
+
+# PDFs originais do INEP, públicos e recriáveis a partir da fonte (ver data/README.md)
+enem/
+
+# Cache de respostas dos modelos, recriável e específico de cada chave
+cache/
+
+# Notebooks, checkpoints
+.ipynb_checkpoints/
+
+# Sistema
+.DS_Store
+Thumbs.db

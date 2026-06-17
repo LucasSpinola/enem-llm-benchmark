@@ -1,0 +1,48 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "enembench"
+version = "0.0.0"
+description = "Benchmark que mede quão bem diferentes LLMs respondem às questões do ENEM."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Lucas Spinola" }]
+dependencies = [
+    "pyyaml>=6.0",
+    "datasets>=3.0",
+    "pdfplumber>=0.11",
+    "pypdfium2>=4.30",
+    "google-genai>=1.0",
+    "openai>=1.40",
+    "python-dotenv>=1.0",
+    "matplotlib>=3.8",
+]
+
+[project.scripts]
+enembench = "enembench.cli:main"
+enembench-relatorio = "enembench.report:main"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.6",
+    "pytest>=8.0",
+    "jupyter>=1.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/enembench"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

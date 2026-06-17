@@ -1,0 +1,46 @@
+# Lista de modelos a avaliar. IDs confirmados nos endpoints /models de cada provedor em 2026-06.
+# multimodal: true marca os modelos que enxergam imagem e portanto recebem as questões com figura.
+
+# Groq, gratuito e rápido, compatível com a API da OpenAI.
+- id: groq-llama-8b
+  provider: groq
+  model: llama-3.1-8b-instant
+  multimodal: false
+
+- id: groq-llama-70b
+  provider: groq
+  model: llama-3.3-70b-versatile
+  multimodal: false
+
+- id: groq-gpt-oss-20b
+  provider: groq
+  model: openai/gpt-oss-20b
+  multimodal: false
+
+- id: groq-llama4-scout
+  provider: groq
+  model: meta-llama/llama-4-scout-17b-16e-instruct
+  multimodal: true
+
+# OpenRouter, variantes :free, algumas multimodais. As :free dependem de provedores upstream e às
+# vezes ficam rate-limited; confirme a disponibilidade antes de uma rodada grande.
+- id: or-gemma-31b
+  provider: openrouter
+  model: google/gemma-4-31b-it:free
+  multimodal: false
+
+- id: or-nemotron-30b
+  provider: openrouter
+  model: nvidia/nemotron-3-nano-30b-a3b:free
+  multimodal: false
+
+- id: or-nemotron-vl
+  provider: openrouter
+  model: nvidia/nemotron-nano-12b-v2-vl:free
+  multimodal: true
+
+# Gemini, gratuito e multimodal. Atenção: a cota grátis desta conta está zerada no momento.
+- id: gemini-flash
+  provider: gemini
+  model: gemini-2.0-flash
+  multimodal: true
