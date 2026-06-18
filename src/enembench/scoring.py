@@ -21,6 +21,21 @@ def acuracia(resultados: list[Resultado]) -> float:
     return acertos / total if total else 0.0
 
 
+def intervalo_wilson(acertos: int, total: int, z: float = 1.96) -> tuple[float, float]:
+    """Intervalo de confiança de Wilson para a acurácia, de 0 a 1.
+
+    É mais adequado que o intervalo normal para amostras pequenas e proporções perto de 0 ou 1, que
+    é o nosso caso, com poucas dezenas de questões por área. O padrão z=1.96 corresponde a 95%.
+    """
+    if total == 0:
+        return (0.0, 0.0)
+    p = acertos / total
+    denominador = 1 + z**2 / total
+    centro = (p + z**2 / (2 * total)) / denominador
+    margem = z * ((p * (1 - p) / total + z**2 / (4 * total**2)) ** 0.5) / denominador
+    return (max(0.0, centro - margem), min(1.0, centro + margem))
+
+
 def _agrupar(
     resultados: list[Resultado], chave: Callable[[Resultado], Hashable]
 ) -> dict[Hashable, list[Resultado]]:

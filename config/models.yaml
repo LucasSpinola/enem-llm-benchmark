@@ -17,6 +17,16 @@
   model: openai/gpt-oss-20b
   multimodal: false
 
+- id: groq-gpt-oss-120b
+  provider: groq
+  model: openai/gpt-oss-120b
+  multimodal: false
+
+- id: groq-qwen3-32b
+  provider: groq
+  model: qwen/qwen3-32b
+  multimodal: false
+
 - id: groq-llama4-scout
   provider: groq
   model: meta-llama/llama-4-scout-17b-16e-instruct

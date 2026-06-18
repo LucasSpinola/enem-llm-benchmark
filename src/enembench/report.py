@@ -60,17 +60,28 @@ def _modelos_e_areas(resultados: list[Resultado]) -> tuple[list[str], list[str]]
 
 
 def grafico_acuracia_por_modelo(resultados: list[Resultado], caminho: str | Path) -> None:
-    """Gráfico de barras da acurácia geral de cada modelo."""
-    dados = scoring.acuracia_por_modelo(resultados)
-    modelos = sorted(dados)
-    valores = [dados[modelo] * 100 for modelo in modelos]
+    """Gráfico de barras da acurácia de cada modelo, com intervalo de confiança e baseline."""
+    modelos = sorted({r.modelo for r in resultados})
+    valores: list[float] = []
+    abaixo: list[float] = []
+    acima: list[float] = []
+    for modelo in modelos:
+        do_modelo = [r for r in resultados if r.modelo == modelo]
+        acertos, total = scoring.acertos_e_total(do_modelo)
+        taxa = acertos / total if total else 0.0
+        baixo, alto = scoring.intervalo_wilson(acertos, total)
+        valores.append(taxa * 100)
+        abaixo.append((taxa - baixo) * 100)
+        acima.append((alto - taxa) * 100)
 
     fig, ax = plt.subplots(figsize=(max(6, len(modelos) * 1.5), 5))
-    barras = ax.bar(modelos, valores, color="#4C72B0")
+    ax.bar(modelos, valores, color="#4C72B0", yerr=[abaixo, acima], capsize=4)
+    ax.axhline(20, linestyle="--", color="gray", linewidth=1, label="acerto ao acaso (20%)")
     ax.set_ylabel("Acurácia (%)")
     ax.set_ylim(0, 100)
-    ax.set_title("Acurácia por modelo no ENEM")
-    ax.bar_label(barras, fmt="%.1f%%", padding=3)
+    ax.set_title("Acurácia por modelo no ENEM, com intervalo de 95%")
+    ax.tick_params(axis="x", rotation=20)
+    ax.legend()
     fig.tight_layout()
     fig.savefig(caminho, dpi=120)
     plt.close(fig)
@@ -89,6 +100,7 @@ def grafico_acuracia_por_area(resultados: list[Resultado], caminho: str | Path) 
         valores = [tabela.get((modelo, area), 0.0) * 100 for area in areas]
         posicoes = [j + i * largura for j in range(len(areas))]
         ax.bar(posicoes, valores, largura, label=modelo)
+    ax.axhline(20, linestyle="--", color="gray", linewidth=1, label="acerto ao acaso (20%)")
     ax.set_ylabel("Acurácia (%)")
     ax.set_ylim(0, 100)
     ax.set_title("Acurácia por área, por modelo")
@@ -120,6 +132,39 @@ def mapa_calor_modelo_area(resultados: list[Resultado], caminho: str | Path) -> 
         for j in range(len(areas)):
             ax.text(j, i, f"{matriz[i][j]:.0f}", ha="center", va="center", color="black")
     fig.colorbar(imagem, ax=ax, label="Acurácia (%)")
+    fig.tight_layout()
+    fig.savefig(caminho, dpi=120)
+    plt.close(fig)
+
+
+def grafico_modalidade(resultados: list[Resultado], caminho: str | Path) -> None:
+    """Barras de texto contra imagem, com intervalo de confiança, para um modelo multimodal."""
+    nomes = {"sem imagem": "Questões de texto", "com imagem": "Questões com imagem"}
+    rotulos: list[str] = []
+    valores: list[float] = []
+    abaixo: list[float] = []
+    acima: list[float] = []
+    for chave in ("sem imagem", "com imagem"):
+        do_grupo = [r for r in resultados if r.tem_imagem == (chave == "com imagem")]
+        if not do_grupo:
+            continue
+        acertos, total = scoring.acertos_e_total(do_grupo)
+        taxa = acertos / total
+        baixo, alto = scoring.intervalo_wilson(acertos, total)
+        rotulos.append(f"{nomes[chave]}\n(n={total})")
+        valores.append(taxa * 100)
+        abaixo.append((taxa - baixo) * 100)
+        acima.append((alto - taxa) * 100)
+    if not valores:
+        return
+
+    fig, ax = plt.subplots(figsize=(6, 5))
+    ax.bar(rotulos, valores, color=["#4C72B0", "#DD8452"], yerr=[abaixo, acima], capsize=4)
+    ax.axhline(20, linestyle="--", color="gray", linewidth=1, label="acerto ao acaso (20%)")
+    ax.set_ylabel("Acurácia (%)")
+    ax.set_ylim(0, 100)
+    ax.set_title("Texto contra imagem, modelo multimodal")
+    ax.legend()
     fig.tight_layout()
     fig.savefig(caminho, dpi=120)
     plt.close(fig)

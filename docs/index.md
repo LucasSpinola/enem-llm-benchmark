@@ -51,36 +51,49 @@ novo reaproveita o que já foi pedido e não gasta cota à toa, o que também to
 
 ## Os resultados
 
-A rodada que apresento aqui usou três modelos do Groq sobre a prova inteira de 2025, somando 348
-respostas de questões de texto, com acurácia geral de 72,1%.
+A rodada que apresento aqui usou cinco modelos do Groq sobre a prova de 2025, em 116 questões de
+texto por modelo, com acurácia geral de 77,1%. Reporto cada taxa com o intervalo de confiança de 95%,
+calculado pelo método de Wilson, que se comporta melhor em amostras pequenas, e os gráficos trazem uma
+linha no acerto ao acaso, 20%, já que são cinco alternativas.
 
-| Modelo | Acurácia geral |
-|---|---|
-| Llama 3.3 70B | 82,8% |
-| GPT-OSS 20B | 75,9% |
-| Llama 3.1 8B | 57,8% |
+| Modelo | Acurácia | Intervalo de 95% |
+|---|---|---|
+| Qwen3 32B | 85,3% | 77,8% a 90,6% |
+| GPT-OSS 120B | 83,6% | 75,8% a 89,3% |
+| Llama 3.3 70B | 82,8% | 74,9% a 88,6% |
+| GPT-OSS 20B | 75,9% | 67,3% a 82,7% |
+| Llama 3.1 8B | 57,8% | 48,7% a 66,4% |
 
-Por área, a ordem de facilidade foi Ciências Humanas, Ciências da Natureza, Linguagens e, bem mais
-difícil para todos, Matemática, o que combina com a intuição de quem já fez a prova.
+O modelo pequeno de 8 bilhões de parâmetros fica claramente atrás de todos os outros. No topo, porém,
+a leitura precisa de cuidado, os intervalos de Qwen3 32B, GPT-OSS 120B e Llama 70B se sobrepõem, então
+com essa amostra eu não consigo afirmar quem é o melhor entre eles, e foi por isso que coloquei as
+barras de erro, para não vender uma diferença que pode ser só ruído. O mapa de calor lá do começo traz
+ainda outra surpresa, o GPT-OSS de 20 bilhões, que é menor, supera o Llama de 70 bilhões justamente em
+Matemática, mesmo perdendo nas demais áreas, então modelo maior não vence em tudo.
 
 ![Acurácia por área, por modelo](acuracia_por_area.png)
 
-O modelo pequeno de 8 bilhões de parâmetros ficou atrás dos outros em todas as áreas, como era de
-esperar. O achado interessante, porém, está no mapa de calor lá do começo. O GPT-OSS de 20 bilhões,
-que é o menor dos dois maiores, supera o Llama de 70 bilhões justamente em Matemática, 73% contra
-64%, mesmo perdendo para ele nas demais áreas. Modelo maior não vence em tudo, e a área mais difícil
-da prova acabou premiando o modelo aberto da OpenAI, treinado com foco em raciocínio.
+Por área, a ordem de facilidade foi Ciências Humanas (88,5%), Ciências da Natureza (84,8%), Linguagens
+(67,9%) e, a mais difícil, Matemática (62,7%), o que combina com a intuição de quem já fez a prova.
+
+Para fechar as duas modalidades, que era um objetivo do projeto, eu rodei um modelo multimodal, o
+Llama 4 Scout, também nas questões com figura. O desafio visual aparece com força, o mesmo modelo
+acerta 85,3% das questões de texto mas só 59,0% das que dependem de imagem, uma queda de 26 pontos cujos
+intervalos nem chegam a se sobrepor, o que indica uma diferença real, concentrada nas figuras de
+matemática e ciências do segundo dia.
+
+![Texto contra imagem](texto_vs_imagem.png)
 
 ## O que ainda não está perfeito
 
-Vale ser franco sobre os limites, porque eles importam na hora de ler os números. As amostras por
-área são pequenas, na casa de algumas dezenas de questões, então cada taxa carrega uma margem de erro
-grande, e diferenças de poucos pontos não devem ser superinterpretadas. Este recorte usa apenas
-questões de texto, já que os modelos puramente textuais não leem imagem, então as questões com figura
-ficaram fora desta comparação. Há ainda um punhado de questões de Matemática em que as alternativas
-são fórmulas em imagem, que a extração de texto não consegue ler, e essas saem com alternativas
-vazias. Por fim, os planos gratuitos impõem limites de cota e de taxa, então uma rodada inteira pede
-atenção a esses limites, e neste trabalho o Groq foi o provedor mais estável.
+Vale ser franco sobre os limites, porque eles importam na hora de ler os números. As amostras por área
+ainda são modestas, na casa de algumas dezenas a poucas centenas de questões, e os intervalos de
+confiança existem justamente para deixar essa incerteza à vista. A comparação principal usa questões de
+texto, porque os modelos puramente textuais não leem imagem, e o recorte multimodal acima fica por
+conta de um único modelo. Há ainda um punhado de questões de Matemática em que as alternativas são
+fórmulas em imagem, que a extração de texto não consegue ler, e essas saem com alternativas vazias. Por
+fim, os planos gratuitos impõem limites de cota e de taxa, então uma rodada inteira pede atenção a esses
+limites, e neste trabalho o Groq foi o provedor mais estável.
 
 ## Como reproduzir
 

@@ -51,6 +51,20 @@ def test_acuracia_por_modelo_area() -> None:
     assert tabela[("llama", "linguagens")] == 1.0
 
 
+def test_intervalo_wilson() -> None:
+    baixo, alto = scoring.intervalo_wilson(50, 100)
+    assert 0.40 < baixo < 0.41
+    assert 0.59 < alto < 0.60
+    assert baixo < 0.5 < alto
+
+
+def test_intervalo_wilson_lista_vazia_e_limites() -> None:
+    assert scoring.intervalo_wilson(0, 0) == (0.0, 0.0)
+    baixo, alto = scoring.intervalo_wilson(10, 10)  # 100% de acerto
+    assert baixo >= 0.0
+    assert alto <= 1.0
+
+
 def test_acuracia_por_modalidade() -> None:
     resultados = [
         _resultado("m", "linguagens", False, True),

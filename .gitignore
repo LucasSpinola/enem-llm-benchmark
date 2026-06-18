@@ -22,12 +22,14 @@ venv/
 results/*
 !results/.gitkeep
 !results/resultados.csv
+!results/imagem_2025.csv
 data/*
 !data/README.md
 
 # Guia interno de trabalho e configurações pessoais do editor, fora do repositório
 CLAUDE.md
 .vscode/
+.claude/
 
 # PDFs originais do INEP, públicos e recriáveis a partir da fonte (ver data/README.md)
 enem/

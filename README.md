@@ -49,26 +49,38 @@ flowchart LR
 
 ## Resultados
 
-Três modelos do Groq sobre a prova inteira de 2025, somando 348 respostas de questões de texto, com
-acurácia geral de 72,1%.
+Cinco modelos gratuitos do Groq sobre a prova de 2025, em 116 questões de texto por modelo, com
+acurácia geral de 77,1%. Reporto cada taxa com o intervalo de confiança de 95%, e os gráficos trazem
+uma linha no acerto ao acaso, 20%, já que são cinco alternativas.
 
-| Modelo | Acurácia geral |
-|---|---|
-| Llama 3.3 70B | 82,8% |
-| GPT-OSS 20B | 75,9% |
-| Llama 3.1 8B | 57,8% |
+| Modelo | Acurácia | Intervalo de 95% |
+|---|---|---|
+| Qwen3 32B | 85,3% | 77,8% a 90,6% |
+| GPT-OSS 120B | 83,6% | 75,8% a 89,3% |
+| Llama 3.3 70B | 82,8% | 74,9% a 88,6% |
+| GPT-OSS 20B | 75,9% | 67,3% a 82,7% |
+| Llama 3.1 8B | 57,8% | 48,7% a 66,4% |
 
-Por área, a ordem de facilidade foi Ciências Humanas (85,0%), Ciências da Natureza (79,4%), Linguagens
-(62,6%) e, bem mais difícil, Matemática (56,1%). O modelo pequeno de 8B ficou atrás dos outros em todas
-as áreas, como esperado, mas o achado interessante está no mapa de calor lá do topo, o GPT-OSS de 20B,
-menor, supera o Llama de 70B justamente em Matemática, 73% contra 64%, mesmo perdendo nas demais áreas.
-Modelo maior não vence em tudo.
+O modelo pequeno de 8B fica claramente atrás de todos os outros, mas no topo a história é mais sutil,
+os intervalos de Qwen3 32B, GPT-OSS 120B e Llama 70B se sobrepõem, então com essa amostra não dá para
+cravar quem é o melhor entre eles, e a barra de erro deixa isso explícito. O mapa de calor mostra ainda
+que modelo maior não vence sempre, o GPT-OSS de 20B supera o Llama de 70B em matemática.
 
-Vale ser franco sobre os limites. As amostras por área são pequenas, então cada taxa tem margem de erro
-grande, e diferenças de poucos pontos não devem ser superinterpretadas. Este recorte é só de questões
-de texto, já que os modelos puramente textuais não leem imagem, então as questões com figura ficaram de
-fora da comparação. A discussão detalhada está na [página do projeto](https://lucasspinola.github.io/enem-llm-benchmark/)
-e no notebook [notebooks/analise.ipynb](notebooks/analise.ipynb).
+![Acurácia por modelo e área](docs/mapa_calor_modelo_area.png)
+
+Por área, a ordem de facilidade foi Ciências Humanas (88,5%), Ciências da Natureza (84,8%), Linguagens
+(67,9%) e, a mais difícil, Matemática (62,7%), o que combina com a intuição de quem fez a prova.
+
+Para fechar as duas modalidades, rodei também um modelo multimodal, o Llama 4 Scout, nas questões com
+figura. O desafio visual aparece com clareza, ele acerta 85,3% das questões de texto mas só 59,0% das
+com imagem, uma queda de 26 pontos cujos intervalos nem se sobrepõem, então é uma diferença real,
+concentrada nas figuras de matemática e ciências do segundo dia.
+
+![Texto contra imagem](docs/texto_vs_imagem.png)
+
+A discussão detalhada, com os tamanhos de amostra, está na
+[página do projeto](https://lucasspinola.github.io/enem-llm-benchmark/) e no notebook
+[notebooks/analise.ipynb](notebooks/analise.ipynb).
 
 ## De onde vêm as questões
 
