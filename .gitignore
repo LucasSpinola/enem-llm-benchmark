@@ -23,6 +23,7 @@ results/*
 !results/.gitkeep
 !results/resultados.csv
 !results/imagem_2025.csv
+!results/multi_ano.csv
 data/*
 !data/README.md
 

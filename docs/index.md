@@ -84,6 +84,24 @@ matemática e ciências do segundo dia.
 
 ![Texto contra imagem](texto_vs_imagem.png)
 
+## O ranking se mantém ao longo dos anos
+
+Para checar se o que vi em 2025 não foi sorte de uma prova específica, comecei a estender o benchmark
+para 2022, 2023 e 2024, usando o dataset aberto da Maritaca. Aqui esbarrei num limite prático e
+instrutivo do plano gratuito, o Groq conta um teto de tokens por dia para cada modelo, e uma varredura
+de vários modelos por três anos não cabe num único dia. Fechei então com cobertura completa dos dois
+extremos do ranking, o Qwen3 32B no topo e o Llama 3.1 8B na base, nos anos que deu para completar. A
+distância entre eles se mantém firme, o Qwen3 32B acerta acima de 90% em 2022 e 2023, enquanto o Llama
+8B fica na casa dos 60 a 70%, com intervalos que nem chegam perto de se tocar. O próprio Llama 8B, que
+tem teto de tokens maior por ser pequeno, completou também 2024 e manteve o desempenho estável, então o
+retrato de 2025 não parece um acaso da prova daquele ano.
+
+![Acurácia por ano, por modelo](acuracia_por_ano.png)
+
+Completar os demais modelos e o ano de 2024 para todos fica para rodadas futuras, conforme a cota diária
+permite, e essa própria restrição já é um aprendizado sobre o que dá para medir usando só as camadas
+gratuitas dos provedores.
+
 ## O que ainda não está perfeito
 
 Vale ser franco sobre os limites, porque eles importam na hora de ler os números. As amostras por área

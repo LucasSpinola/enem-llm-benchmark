@@ -170,6 +170,51 @@ def grafico_modalidade(resultados: list[Resultado], caminho: str | Path) -> None
     plt.close(fig)
 
 
+def grafico_por_ano(resultados: list[Resultado], caminho: str | Path) -> None:
+    """Barras agrupadas da acurácia por ano, uma série por modelo, com intervalo de confiança.
+
+    Serve à análise de robustez, mostrando se a ordem entre os modelos se mantém de um ano a outro.
+    """
+    modelos = sorted({r.modelo for r in resultados})
+    anos = sorted({r.ano for r in resultados})
+    if not modelos or not anos:
+        return
+    largura = 0.8 / len(modelos)
+
+    fig, ax = plt.subplots(figsize=(max(7, len(anos) * 1.8), 5))
+    for i, modelo in enumerate(modelos):
+        valores: list[float] = []
+        abaixo: list[float] = []
+        acima: list[float] = []
+        for ano in anos:
+            do_grupo = [r for r in resultados if r.modelo == modelo and r.ano == ano]
+            acertos, total = scoring.acertos_e_total(do_grupo)
+            if total == 0:
+                # Sem dado para este par modelo e ano, não desenha barra nem intervalo.
+                valores.append(float("nan"))
+                abaixo.append(0.0)
+                acima.append(0.0)
+                continue
+            taxa = acertos / total
+            baixo, alto = scoring.intervalo_wilson(acertos, total)
+            valores.append(taxa * 100)
+            abaixo.append((taxa - baixo) * 100)
+            acima.append((alto - taxa) * 100)
+        posicoes = [j + i * largura for j in range(len(anos))]
+        ax.bar(posicoes, valores, largura, label=modelo, yerr=[abaixo, acima], capsize=3)
+    ax.axhline(20, linestyle="--", color="gray", linewidth=1, label="acerto ao acaso (20%)")
+    ax.set_ylabel("Acurácia (%)")
+    ax.set_ylim(0, 100)
+    ax.set_title("Acurácia por ano, por modelo")
+    centro = [j + largura * (len(modelos) - 1) / 2 for j in range(len(anos))]
+    ax.set_xticks(centro)
+    ax.set_xticklabels([str(ano) for ano in anos])
+    ax.legend()
+    fig.tight_layout()
+    fig.savefig(caminho, dpi=120)
+    plt.close(fig)
+
+
 def gerar_erros_comentados_md(
     resultados: list[Resultado],
     questoes_por_id: dict[str, Questao],

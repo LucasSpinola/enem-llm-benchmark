@@ -43,8 +43,9 @@ Implementado em `src/enembench/pdf_enem.py`.
 - **Licença:** Apache 2.0, declarada no card do dataset.
 - **Anos cobertos:** ENEM 2022, 2023 e 2024, 180 questões por ano, com as quatro áreas.
 - **Imagens:** flag `IU`, coluna `figures` com URLs e `description` com a descrição textual.
-- **Uso:** mantida como fonte alternativa, útil para cobrir as quatro áreas com 2022 a 2024 enquanto
-  o ENEM 2025 só tem o Dia 1. Implementada em `src/enembench/dataset.py`.
+- **Uso:** fonte da análise de robustez entre anos, em que se compara a acurácia dos modelos de 2022
+  a 2024 para checar se a ordem observada em 2025 se mantém. Implementada em
+  `src/enembench/dataset.py`.
 
 ## Derivação da área
 
