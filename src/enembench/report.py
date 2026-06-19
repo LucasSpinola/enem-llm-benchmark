@@ -215,6 +215,68 @@ def grafico_por_ano(resultados: list[Resultado], caminho: str | Path) -> None:
     plt.close(fig)
 
 
+def grafo_concordancia(resultados: list[Resultado], caminho: str | Path) -> None:
+    """Rede de concordância entre modelos, nós são modelos e arestas a fração de respostas iguais.
+
+    Usa um layout de força, então modelos que respondem parecido ficam mais próximos, e a aresta
+    engrossa quanto maior a concordância. A cor do nó é a acurácia do modelo.
+    """
+    import networkx as nx
+
+    pares = scoring.concordancia_entre_modelos(resultados)
+    if not pares:
+        return
+    modelos = sorted({modelo for par in pares for modelo in par})
+    acuracias = {m: scoring.acuracia([r for r in resultados if r.modelo == m]) for m in modelos}
+
+    grafo = nx.Graph()
+    grafo.add_nodes_from(modelos)
+    for (a, b), peso in pares.items():
+        grafo.add_edge(a, b, weight=peso)
+
+    posicoes = nx.spring_layout(grafo, weight="weight", seed=42)
+    pesos = [grafo[a][b]["weight"] for a, b in grafo.edges()]
+
+    fig, ax = plt.subplots(figsize=(7, 6))
+    nx.draw_networkx_edges(
+        grafo,
+        posicoes,
+        width=[(p - 0.5) * 14 for p in pesos],
+        edge_color=pesos,
+        edge_cmap=plt.cm.Greys,
+        edge_vmin=0.4,
+        edge_vmax=1.0,
+        ax=ax,
+    )
+    nos = nx.draw_networkx_nodes(
+        grafo,
+        posicoes,
+        node_size=2400,
+        node_color=[acuracias[m] * 100 for m in grafo.nodes()],
+        cmap="YlGn",
+        vmin=0,
+        vmax=100,
+        edgecolors="black",
+        linewidths=0.5,
+        ax=ax,
+    )
+    nx.draw_networkx_labels(
+        grafo,
+        posicoes,
+        labels={m: m.replace("groq-", "") for m in grafo.nodes()},
+        font_size=8,
+        ax=ax,
+    )
+    rotulos = {(a, b): f"{grafo[a][b]['weight']:.0%}" for a, b in grafo.edges()}
+    nx.draw_networkx_edge_labels(grafo, posicoes, edge_labels=rotulos, font_size=6, ax=ax)
+    fig.colorbar(nos, ax=ax, label="Acurácia (%)", shrink=0.8)
+    ax.set_title("Rede de concordância entre modelos, prova de 2025")
+    ax.axis("off")
+    fig.tight_layout()
+    fig.savefig(caminho, dpi=120)
+    plt.close(fig)
+
+
 def gerar_erros_comentados_md(
     resultados: list[Resultado],
     questoes_por_id: dict[str, Questao],
@@ -305,6 +367,7 @@ def main(argv: list[str] | None = None) -> int:
     grafico_acuracia_por_modelo(resultados, saida / "acuracia_por_modelo.png")
     grafico_acuracia_por_area(resultados, saida / "acuracia_por_area.png")
     mapa_calor_modelo_area(resultados, saida / "mapa_calor_modelo_area.png")
+    grafo_concordancia(resultados, saida / "grafo_concordancia.png")
 
     questoes = _carregar_questoes(args)
     total_erros = gerar_erros_comentados_md(

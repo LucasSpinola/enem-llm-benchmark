@@ -73,3 +73,40 @@ def test_acuracia_por_modalidade() -> None:
     modalidade = scoring.acuracia_por_modalidade(resultados)
     assert modalidade["sem imagem"] == 1.0
     assert modalidade["com imagem"] == 0.0
+
+
+def _resposta(modelo: str, questao_id: str, alternativa: str | None) -> Resultado:
+    return Resultado(
+        questao_id=questao_id,
+        modelo=modelo,
+        ano=2025,
+        area="linguagens",
+        tem_imagem=False,
+        alternativa=alternativa,
+        gabarito="A",
+        acertou=alternativa == "A",
+    )
+
+
+def test_concordancia_entre_modelos() -> None:
+    resultados = [
+        _resposta("a", "q1", "A"),
+        _resposta("b", "q1", "A"),
+        _resposta("c", "q1", "B"),
+        _resposta("a", "q2", "C"),
+        _resposta("b", "q2", "D"),
+        _resposta("c", "q2", "C"),
+    ]
+    pares = scoring.concordancia_entre_modelos(resultados)
+    assert pares[("a", "b")] == 0.5  # iguais só em q1
+    assert pares[("a", "c")] == 0.5  # iguais só em q2
+    assert pares[("b", "c")] == 0.0  # nunca iguais
+
+
+def test_concordancia_ignora_alternativa_vazia() -> None:
+    resultados = [
+        _resposta("a", "q1", None),
+        _resposta("b", "q1", None),
+    ]
+    # Duas respostas não extraídas não contam como concordância.
+    assert scoring.concordancia_entre_modelos(resultados)[("a", "b")] == 0.0

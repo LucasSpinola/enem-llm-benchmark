@@ -1,12 +1,26 @@
 # enem-llm-benchmark
 
+[![CI](https://github.com/LucasSpinola/enem-llm-benchmark/actions/workflows/ci.yml/badge.svg)](https://github.com/LucasSpinola/enem-llm-benchmark/actions/workflows/ci.yml)
+[![Licença: MIT](https://img.shields.io/badge/licença-MIT-green.svg)](https://github.com/LucasSpinola/enem-llm-benchmark/blob/main/LICENSE)
+![Python](https://img.shields.io/badge/python-3.11+-blue.svg)
+
 Este é um projeto que eu montei para medir quão bem alguns modelos de linguagem respondem às questões
 do ENEM, a prova que mais gente presta no Brasil. A ideia central é simples, eu pego as provas
 oficiais, mando os modelos responderem, comparo cada resposta com o gabarito e olho não só o acerto
 geral, mas também onde cada modelo erra, separando por área do conhecimento. O resultado abaixo é da
-edição de 2025, com três modelos gratuitos, e já trouxe um achado que eu não esperava de início.
+edição de 2025, com cinco modelos gratuitos, e já trouxe achados que eu não esperava de início.
 
 ![Acurácia por modelo e área](mapa_calor_modelo_area.png)
+
+**Em resumo, o que este trabalho mostra:**
+
+- Cinco modelos gratuitos do Groq na prova de 2025, com acurácia geral de 77%, e Qwen3 32B, GPT-OSS
+  120B e Llama 70B tecnicamente empatados no topo, dentro da margem de erro.
+- Matemática é a área mais difícil para todos, e as questões com imagem derrubam o modelo multimodal
+  de 85% para 59% de acerto.
+- A ordem entre os modelos se repete de 2022 a 2024, então o ranking não foi um acaso da prova de um ano.
+- A concordância entre os modelos acompanha a capacidade, o modelo mais fraco se descola do grupo na
+  hora de responder.
 
 ## O que eu quis responder
 
@@ -75,6 +89,25 @@ Matemática, mesmo perdendo nas demais áreas, então modelo maior não vence em
 
 Por área, a ordem de facilidade foi Ciências Humanas (88,5%), Ciências da Natureza (84,8%), Linguagens
 (67,9%) e, a mais difícil, Matemática (62,7%), o que combina com a intuição de quem já fez a prova.
+
+## Quem responde parecido com quem
+
+Olhar só a nota esconde uma pergunta interessante, será que os modelos erram e acertam nas mesmas
+questões, ou cada um tem o seu jeito de responder. Para ver isso, montei uma rede em que cada modelo é
+um nó, e a ligação entre dois deles é a fração de questões em que deram exatamente a mesma alternativa,
+não importa se certa ou errada. No layout de força, quanto mais dois modelos concordam, mais perto e
+mais grossa fica a ligação, e a cor do nó é a acurácia do modelo.
+
+![Rede de concordância entre modelos](grafo_concordancia.png)
+
+O desenho deixa claro um ponto que não saltava aos olhos nas barras. Os quatro modelos mais fortes
+formam um bloco bem amarrado, concordando entre si de 74% a 85% das vezes, enquanto o Llama 8B fica
+isolado num canto, concordando só 58% a 61% com os demais. Ou seja, a concordância acompanha a
+capacidade, não a família, o GPT-OSS de 120 bilhões responde mais parecido com o Llama 70B do que com o
+seu irmão de 20 bilhões. Faz sentido, modelos que sabem a resposta convergem para a mesma letra certa, e
+o modelo que erra mais é justamente o que se descola do grupo.
+
+## Texto contra imagem
 
 Para fechar as duas modalidades, que era um objetivo do projeto, eu rodei um modelo multimodal, o
 Llama 4 Scout, também nas questões com figura. O desafio visual aparece com força, o mesmo modelo

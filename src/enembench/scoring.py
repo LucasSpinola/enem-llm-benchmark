@@ -5,6 +5,7 @@ entre questões de texto e questões com imagem. Tudo determinístico e fácil d
 """
 
 from collections.abc import Callable, Hashable
+from itertools import combinations
 
 from enembench.schema import Resultado
 
@@ -67,3 +68,24 @@ def acuracia_por_modalidade(resultados: list[Resultado]) -> dict[str, float]:
     """Acurácia recortada entre questões de texto e questões com imagem."""
     grupos = _agrupar(resultados, lambda r: "com imagem" if r.tem_imagem else "sem imagem")
     return {modalidade: acuracia(grupo) for modalidade, grupo in grupos.items()}
+
+
+def concordancia_entre_modelos(resultados: list[Resultado]) -> dict[tuple[str, str], float]:
+    """Fração de questões em que cada par de modelos deu a mesma alternativa.
+
+    Mede o quanto dois modelos respondem igual, independente de acertar, sobre as questões que ambos
+    responderam. Serve à rede de concordância. Função pura, devolve um valor por par ordenado.
+    """
+    respostas: dict[str, dict[str, str | None]] = {}
+    for r in resultados:
+        respostas.setdefault(r.modelo, {})[r.questao_id] = r.alternativa
+    pares: dict[tuple[str, str], float] = {}
+    for a, b in combinations(sorted(respostas), 2):
+        comuns = set(respostas[a]) & set(respostas[b])
+        if not comuns:
+            continue
+        iguais = sum(
+            1 for q in comuns if respostas[a][q] is not None and respostas[a][q] == respostas[b][q]
+        )
+        pares[(a, b)] = iguais / len(comuns)
+    return pares

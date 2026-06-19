@@ -1,3 +1,4 @@
 title: enem-llm-benchmark
-description: Quão bem modelos de linguagem gratuitos resolvem as questões do ENEM 2025
+description: Quão bem modelos de linguagem gratuitos resolvem as questões do ENEM, com acurácia por área, intervalos de confiança e análise de imagem
 theme: jekyll-theme-cayman
+show_downloads: false

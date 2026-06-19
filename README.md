@@ -71,6 +71,13 @@ que modelo maior não vence sempre, o GPT-OSS de 20B supera o Llama de 70B em ma
 Por área, a ordem de facilidade foi Ciências Humanas (88,5%), Ciências da Natureza (84,8%), Linguagens
 (67,9%) e, a mais difícil, Matemática (62,7%), o que combina com a intuição de quem fez a prova.
 
+Para ver quem responde parecido com quem, montei uma rede em que cada modelo é um nó e a ligação é a
+fração de questões em que dois modelos deram a mesma alternativa. Os quatro modelos fortes formam um
+bloco que concorda de 74% a 85%, e o Llama 8B fica isolado, concordando só 58% a 61% com os demais, ou
+seja, a concordância acompanha a capacidade e não a família.
+
+![Rede de concordância entre modelos](docs/grafo_concordancia.png)
+
 Para fechar as duas modalidades, rodei também um modelo multimodal, o Llama 4 Scout, nas questões com
 figura. O desafio visual aparece com clareza, ele acerta 85,3% das questões de texto mas só 59,0% das
 com imagem, uma queda de 26 pontos cujos intervalos nem se sobrepõem, então é uma diferença real,
