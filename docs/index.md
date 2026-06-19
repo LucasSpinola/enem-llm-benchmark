@@ -86,21 +86,22 @@ matemática e ciências do segundo dia.
 
 ## O ranking se mantém ao longo dos anos
 
-Para checar se o que vi em 2025 não foi sorte de uma prova específica, comecei a estender o benchmark
-para 2022, 2023 e 2024, usando o dataset aberto da Maritaca. Aqui esbarrei num limite prático e
-instrutivo do plano gratuito, o Groq conta um teto de tokens por dia para cada modelo, e uma varredura
-de vários modelos por três anos não cabe num único dia. Fechei então com cobertura completa dos dois
-extremos do ranking, o Qwen3 32B no topo e o Llama 3.1 8B na base, nos anos que deu para completar. A
-distância entre eles se mantém firme, o Qwen3 32B acerta acima de 90% em 2022 e 2023, enquanto o Llama
-8B fica na casa dos 60 a 70%, com intervalos que nem chegam perto de se tocar. O próprio Llama 8B, que
-tem teto de tokens maior por ser pequeno, completou também 2024 e manteve o desempenho estável, então o
-retrato de 2025 não parece um acaso da prova daquele ano.
+Para checar se o que vi em 2025 não foi sorte de uma prova específica, estendi o benchmark para 2022,
+2023 e 2024, usando o dataset aberto da Maritaca. Rodei três modelos que cobrem bem a faixa de
+desempenho, o Qwen3 32B no topo, o Llama 3.3 70B no meio e o Llama 3.1 8B na base. A ordem entre eles
+se repete em todos os anos, sem cruzamento, o Qwen3 fica acima de 90%, o Llama 70B na casa dos 78 a
+87%, e o Llama 8B nos 61 a 73%, e os intervalos do topo e da base nunca chegam a se tocar. Em outras
+palavras, o retrato de 2025 não é um acaso da prova daquele ano, a hierarquia entre os modelos é
+estável ao longo do tempo.
 
 ![Acurácia por ano, por modelo](acuracia_por_ano.png)
 
-Completar os demais modelos e o ano de 2024 para todos fica para rodadas futuras, conforme a cota diária
-permite, e essa própria restrição já é um aprendizado sobre o que dá para medir usando só as camadas
-gratuitas dos provedores.
+Aqui também apareceu um limite prático e instrutivo do plano gratuito. O Groq conta um teto de tokens
+por dia para cada modelo, e as questões de Matemática de 2024, que são mais longas, passaram da cota do
+Llama 70B naquele dia, então deixei a barra dele em 2024 de fora, para não comparar com uma amostra que
+ficaria enviesada justo na área mais difícil. Completar essa última lacuna fica para uma rodada futura,
+e essa própria restrição já diz algo sobre o que dá para medir usando só as camadas gratuitas dos
+provedores.
 
 ## O que ainda não está perfeito
 

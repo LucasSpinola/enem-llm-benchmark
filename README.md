@@ -78,12 +78,12 @@ concentrada nas figuras de matemática e ciências do segundo dia.
 
 ![Texto contra imagem](docs/texto_vs_imagem.png)
 
-Para conferir se o retrato de 2025 se sustenta, comecei a estender o benchmark para 2022, 2023 e 2024
-com o dataset aberto da Maritaca. O teto de tokens por dia do plano gratuito limita uma varredura
-grande num único dia, então fechei com os dois extremos do ranking, Qwen3 32B e Llama 8B, nos anos que
-deu para completar. A distância entre eles se mantém, o Qwen3 fica acima de 90% em 2022 e 2023 e o
-Llama 8B na casa dos 60 a 70%, com intervalos que nem se aproximam, então a ordem dos modelos não foi
-um acaso da prova de um ano.
+Para conferir se o retrato de 2025 se sustenta, estendi o benchmark para 2022, 2023 e 2024 com o
+dataset aberto da Maritaca, rodando três modelos que cobrem a faixa de desempenho, Qwen3 32B, Llama
+3.3 70B e Llama 3.1 8B. A ordem entre eles se repete em todos os anos, sem cruzamento, o Qwen3 acima de
+90%, o Llama 70B entre 78 e 87% e o Llama 8B entre 61 e 73%, então a hierarquia dos modelos não foi um
+acaso da prova de um ano. A barra do Llama 70B em 2024 ficou de fora porque o teto de tokens por dia do
+plano gratuito cortou as questões de Matemática, mais longas, e não quis comparar com amostra enviesada.
 
 ![Acurácia por ano, por modelo](docs/acuracia_por_ano.png)
 
