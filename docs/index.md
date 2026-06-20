@@ -135,6 +135,14 @@ longas, esbarram nesse teto, então precisei coletar em mais de uma passada, à 
 renovava. Como o cache guarda tudo o que já foi respondido, isso não custou cota nem dinheiro, só
 tempo, mas é um lembrete concreto do que dá para medir usando só as camadas gratuitas dos provedores.
 
+A rede de concordância, que no recorte de 2025 mostrou os modelos fortes agrupados e o fraco isolado,
+conta a mesma coisa ano a ano. Desenhei uma rede por ano, com as mesmas posições, então só a espessura
+das ligações muda. Em 2022, 2023 e 2024, a ligação mais grossa é sempre entre o Llama 70B e o Qwen3 32B,
+os dois mais fortes, que concordam de 76% a 88% das vezes, enquanto as ligações com o Llama 8B ficam
+sempre mais finas. O padrão é estável, quem sabe a resposta converge para a mesma letra, todo ano.
+
+![Rede de concordância entre modelos, por ano](grafo_concordancia_ano.png)
+
 ## O que ainda não está perfeito
 
 Vale ser franco sobre os limites, porque eles importam na hora de ler os números. As amostras por área

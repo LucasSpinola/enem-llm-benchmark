@@ -277,6 +277,69 @@ def grafo_concordancia(resultados: list[Resultado], caminho: str | Path) -> None
     plt.close(fig)
 
 
+def grafo_concordancia_por_ano(resultados: list[Resultado], caminho: str | Path) -> None:
+    """Uma rede de concordância por ano, lado a lado e com as mesmas posições, para comparar.
+
+    Mostra se o padrão de quem responde parecido com quem se mantém de um ano para o outro. Como as
+    posições dos nós são fixas, só a espessura e a cor das arestas mudam entre os anos.
+    """
+    import networkx as nx
+
+    anos = sorted({r.ano for r in resultados})
+    modelos = sorted({r.modelo for r in resultados})
+    if not anos or len(modelos) < 2:
+        return
+    base = nx.Graph()
+    base.add_nodes_from(modelos)
+    posicoes = nx.circular_layout(base)
+    nomes = {m: m.replace("groq-", "") for m in modelos}
+
+    fig, eixos = plt.subplots(1, len(anos), figsize=(4.5 * len(anos), 4.8))
+    if len(anos) == 1:
+        eixos = [eixos]
+    for eixo, ano in zip(eixos, anos, strict=True):
+        do_ano = [r for r in resultados if r.ano == ano]
+        pares = scoring.concordancia_entre_modelos(do_ano)
+        acuracias = {m: scoring.acuracia([r for r in do_ano if r.modelo == m]) for m in modelos}
+        grafo = nx.Graph()
+        grafo.add_nodes_from(modelos)
+        for (a, b), peso in pares.items():
+            grafo.add_edge(a, b, weight=peso)
+        pesos = [grafo[a][b]["weight"] for a, b in grafo.edges()]
+        nx.draw_networkx_edges(
+            grafo,
+            posicoes,
+            width=[(p - 0.5) * 14 for p in pesos],
+            edge_color=pesos,
+            edge_cmap=plt.cm.Greys,
+            edge_vmin=0.4,
+            edge_vmax=1.0,
+            ax=eixo,
+        )
+        nx.draw_networkx_nodes(
+            grafo,
+            posicoes,
+            node_size=1800,
+            node_color=[acuracias[m] * 100 for m in grafo.nodes()],
+            cmap="YlGn",
+            vmin=0,
+            vmax=100,
+            edgecolors="black",
+            linewidths=0.5,
+            ax=eixo,
+        )
+        nx.draw_networkx_labels(grafo, posicoes, labels=nomes, font_size=7, ax=eixo)
+        rotulos = {(a, b): f"{grafo[a][b]['weight']:.0%}" for a, b in grafo.edges()}
+        nx.draw_networkx_edge_labels(grafo, posicoes, edge_labels=rotulos, font_size=6, ax=eixo)
+        eixo.set_title(str(ano))
+        eixo.margins(0.18)
+        eixo.axis("off")
+    fig.suptitle("Rede de concordância entre modelos, por ano")
+    fig.tight_layout()
+    fig.savefig(caminho, dpi=120)
+    plt.close(fig)
+
+
 def gerar_erros_comentados_md(
     resultados: list[Resultado],
     questoes_por_id: dict[str, Questao],

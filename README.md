@@ -94,6 +94,11 @@ teto de tokens por dia do plano gratuito, que aperta nas questões de Matemátic
 
 ![Acurácia por ano, por modelo](docs/acuracia_por_ano.png)
 
+A rede de concordância também se mantém ano a ano, a ligação mais grossa é sempre entre os dois modelos
+mais fortes, Llama 70B e Qwen3 32B, e o Llama 8B fica sempre na ponta mais solta.
+
+![Rede de concordância entre modelos, por ano](docs/grafo_concordancia_ano.png)
+
 A discussão detalhada, com os tamanhos de amostra, está na
 [página do projeto](https://lucasspinola.github.io/enem-llm-benchmark/) e no notebook
 [notebooks/analise.ipynb](notebooks/analise.ipynb).
