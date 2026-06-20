@@ -129,12 +129,11 @@ estável ao longo do tempo.
 
 ![Acurácia por ano, por modelo](acuracia_por_ano.png)
 
-Aqui também apareceu um limite prático e instrutivo do plano gratuito. O Groq conta um teto de tokens
-por dia para cada modelo, e as questões de Matemática de 2024, que são mais longas, passaram da cota do
-Llama 70B naquele dia, então deixei a barra dele em 2024 de fora, para não comparar com uma amostra que
-ficaria enviesada justo na área mais difícil. Completar essa última lacuna fica para uma rodada futura,
-e essa própria restrição já diz algo sobre o que dá para medir usando só as camadas gratuitas dos
-provedores.
+Montar esse painel completo, com os três modelos nos três anos, exigiu paciência com o plano gratuito.
+O Groq conta um teto de tokens por dia para cada modelo, e as questões de Matemática, que são mais
+longas, esbarram nesse teto, então precisei coletar em mais de uma passada, à medida que a cota se
+renovava. Como o cache guarda tudo o que já foi respondido, isso não custou cota nem dinheiro, só
+tempo, mas é um lembrete concreto do que dá para medir usando só as camadas gratuitas dos provedores.
 
 ## O que ainda não está perfeito
 

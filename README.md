@@ -89,8 +89,8 @@ Para conferir se o retrato de 2025 se sustenta, estendi o benchmark para 2022, 2
 dataset aberto da Maritaca, rodando três modelos que cobrem a faixa de desempenho, Qwen3 32B, Llama
 3.3 70B e Llama 3.1 8B. A ordem entre eles se repete em todos os anos, sem cruzamento, o Qwen3 acima de
 90%, o Llama 70B entre 78 e 87% e o Llama 8B entre 61 e 73%, então a hierarquia dos modelos não foi um
-acaso da prova de um ano. A barra do Llama 70B em 2024 ficou de fora porque o teto de tokens por dia do
-plano gratuito cortou as questões de Matemática, mais longas, e não quis comparar com amostra enviesada.
+acaso da prova de um ano. Montar o painel completo exigiu coletar em mais de uma passada, por causa do
+teto de tokens por dia do plano gratuito, que aperta nas questões de Matemática, mais longas.
 
 ![Acurácia por ano, por modelo](docs/acuracia_por_ano.png)
 
